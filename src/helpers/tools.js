@@ -13,3 +13,15 @@ export const pagination = (page = {size: 15, number: 1}) => ({
 })
 
 export const totalPage = (count, size = 15) => Math.ceil(count / size)
+
+export const tokenPayload = ({id, name, email, role_id}) => ({id, name, email, role_id})
+
+export const formatRecord = record => record.get({plain: true})
+
+export const sanitizeUserAttributes = ({id, name, email, role_id, Role = {}}) => ({
+    id,
+    email,
+    name,
+    role_id,
+    roleName: Role.name
+  })
