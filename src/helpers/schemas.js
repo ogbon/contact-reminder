@@ -11,6 +11,23 @@ const schemas = {
       name: Joi.string().required(),
       password: Joi.string().required()
     })
+  },
+  contact: {
+    create: Joi.object().keys({
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      meetingPlace: Joi.string().required(),
+      meetingDate: Joi.date(),
+      purpose: Joi.string().required()
+    }),
+
+    update: Joi.object().keys({
+      firstName: Joi.string(),
+      lastName: Joi.string(),
+      meetingPlace: Joi.string(),
+      meetingDate: Joi.date(),
+      purpose: Joi.string()
+    })
   }
 }
 

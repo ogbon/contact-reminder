@@ -12,8 +12,6 @@ import {
 } from '../helpers/tools'
 
 
-require('dotenv').config()
-
 class AuthService {
   constructor() {
     this.userService = new DataService(db.User)
@@ -22,16 +20,16 @@ class AuthService {
   signIn(credentials) {
     const {email, password} = credentials
 
-    return this.userService.show({email}/*, {include: db.Role}*/).then(user => {
+    return this.userService.show({email}).then(user => {
       if (user) {
 
         return bcrypt.compare(password, user.password).then(response => {
           if (response)
             return {token: generateJWTToken(tokenPayload(formatRecord(user))), user: sanitizeUserAttributes(formatRecord(user))}
           else
-            throw new Error('EmailService and/or password is incorrect.')
+            throw new Error('Email and/or password is incorrect.')
         })
-      } else { throw new Error('EmailService and/or password is incorrect.') }
+      } else { throw new Error('Email and/or password is incorrect.') }
     })
   }
 
