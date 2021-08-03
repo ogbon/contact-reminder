@@ -1,0 +1,12 @@
+{
+  "all": true,
+  "exclude": [
+    "spec/",
+    "coverage",
+    "db/migrations/*.js",
+    "db/seeders/*.js",
+    "db/config/*.js",
+    "db/models/*.js",
+    "**/*.spec.js"
+  ]
+}

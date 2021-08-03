@@ -58,9 +58,6 @@ const contacts = {
     Promise.try(() => contactService.remove(req.params.id))
       .then(() => res.status(ACCEPTED).send({data: null, message: 'Contact removed', success: true}))
       .catch(err => {
-        if (err.message === 'Current User cannot view this contact.')
-          res.status(UNAUTHORIZED).send({data: null, message: err.message, success: false})
-        else
           res.status(UNPROCESSABLE_ENTITY).send({data: null, message: 'Unable to process your request.', success: false})
       })
   },

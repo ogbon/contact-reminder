@@ -3,3 +3,10 @@ node_modules/*
 
 # dotenv environment variables file
 .env
+
+# Project build
+build/
+
+# coverage
+.nyc_output
+coverage/*

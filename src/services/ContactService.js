@@ -36,7 +36,7 @@ class ContactService extends DataService {
       if (contact)
         return contact.destroy()
       else
-        throw new Error('Current User cannot view this contact.')
+        throw new Error('Invalid contact id.')
     })
   }
 
