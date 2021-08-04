@@ -1,0 +1,345 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Contact Reminder API
+  description: Documentation for the Contact Reminder API
+
+tags:
+  - name: Auth
+    description: Auth
+  - name: Contacts
+    description: Contacts
+  - name: Users
+    description: Users
+
+paths:
+  /auth/sign-in:
+    post:
+      tags:
+        - Auth
+      summary: Login as a user
+      requestBody:
+        description: Login payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignIn'
+      responses:
+        "200":
+          $ref: '#/components/responses/UserSignIn'
+
+  /auth/sign-up:
+    post:
+      tags:
+        - Auth
+      summary: Sign Up as a user
+      requestBody:
+        description: Sign up payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignUp'
+      responses:
+        "201":
+          $ref: '#/components/responses/UserSignUp'
+
+  /contacts:
+    post:
+      tags:
+        - Contacts
+      security:
+        - bearerAuth: [ ]
+      summary: Create new Contact
+      requestBody:
+        description: Contact payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactCreate'
+      responses:
+        "201":
+          $ref: '#/components/responses/ContactCreate'
+    get:
+      tags:
+        - Contacts
+      summary: Fetch Contacts
+      security:
+        - bearerAuth: [ ]
+      responses:
+        "200":
+          $ref: '#/components/responses/ContactFetch'
+  /contacts/{id}:
+    get:
+      tags:
+        - Contacts
+      summary: Get Contact
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          description: Contact ID
+          schema:
+            $ref: '#/components/schemas/Number'
+      responses:
+        "200":
+          $ref: '#/components/responses/ContactDetail'
+    patch:
+      tags:
+        - Contacts
+      summary: Update Contact
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          description: Contact ID
+          schema:
+            $ref: '#/components/schemas/Number'
+      requestBody:
+        description: Contact payload
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactCreate'
+      responses:
+        "200":
+          $ref: '#/components/responses/ContactDetail'
+    delete:
+      tags:
+        - Contacts
+      summary: Delete Contact
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          description: Contact ID
+          schema:
+            $ref: '#/components/schemas/Number'
+      responses:
+        "202":
+          $ref: '#/components/responses/DeleteResource'
+
+  /users/contacts:
+    get:
+      tags:
+        - Users
+      summary: Fetch Users Contacts
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: page[size]
+          in: query
+          description: 'Page size'
+        - name: page[number]
+          in: query
+          description: 'Current page number'
+      responses:
+        "200":
+          $ref: '#/components/responses/UsersContactsFetch'
+          
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    DeleteResource:
+      description: Delete resource
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/DeleteResource'
+    UserSignIn:
+      description: Login response
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/UserSignInResponse'
+    UserSignUp:
+      description: Sign Up response
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/UserSignUpResponse'
+    ContactCreate:
+      description: Create Contact response
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/ContactCreateResponse'
+    ContactFetch:
+      description: Fetch Contacts response
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/ContactFetchResponse'
+    ContactDetail:
+      description: Get Contact
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/ContactDetailResponse'
+    UsersContactsFetch:
+      description: Fetch Users response
+      content:
+        "application/json":
+          schema:
+            $ref: '#/components/schemas/UsersContactsFetchResponse'        
+
+  schemas:
+    Number:
+      type: number
+      example: 1
+    String:
+      type: string
+    DateTime:
+      type: string
+      format: 'date-time'
+    Email:
+      type: string
+      format: email
+      example: user@example.com
+    Boolean:
+      type: boolean  
+    DefaultModelAttributes:
+      properties:
+        id:
+          $ref: "#/components/schemas/Number"
+        createdAt:
+          $ref: "#/components/schemas/DateTime"
+        updatedAt:
+          $ref: "#/components/schemas/DateTime"
+    BaseResponseFields:
+      properties:
+        message:
+          $ref: '#/components/schemas/String'
+        success:
+          $ref: '#/components/schemas/Boolean'
+    DeleteResource:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseFields'
+        - properties:
+            data:
+              type: string
+              example: null      
+    UserSignIn:
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+        password:
+          type: string
+          example: password
+    UserSignUp:
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+        password:
+          $ref: '#/components/schemas/String'
+        name:
+          $ref: '#/components/schemas/String'  
+
+    UserDetail:
+      allOf:
+        - $ref: '#/components/schemas/DefaultModelAttributes'
+        - properties:
+            name:
+              $ref: '#/components/schemas/String'
+            email:
+              $ref: '#/components/schemas/String'
+            role_id:
+              $ref: '#/components/schemas/Number'   
+          
+    UserSignInResponse:
+      properties:
+        token:
+          type: string
+          example: "30a6..."
+        user:
+          $ref: "#/components/schemas/UserDetail"  
+
+    UserSignUpResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponseFields'
+        - properties:
+            data:
+              $ref: '#/components/schemas/UserDetail'
+
+    ContactCreate:
+      properties:
+        firstName:
+          $ref: '#/components/schemas/String'
+        lastName:
+          $ref: '#/components/schemas/String'
+        meetingPlace:
+          $ref: '#/components/schemas/String'
+        meetingDate:
+          $ref: '#/components/schemas/DateTime'
+        purpose:
+          $ref: '#/components/schemas/String'          
+              
+    ContactDetail:
+      allOf:
+        - $ref: '#/components/schemas/DefaultModelAttributes'
+        - properties:
+            firstName:
+              $ref: '#/components/schemas/String'
+            lastName:
+              $ref: '#/components/schemas/String'
+            meetingPlace:
+              $ref: '#/components/schemas/String'
+            meetingDate:
+              $ref: '#/components/schemas/DateTime'
+            purpose:
+              $ref: '#/components/schemas/String'
+            user_id:
+              $ref: '#/components/schemas/Number'
+              
+    ContactCreateResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ContactDetail'
+        message:
+          $ref: '#/components/schemas/String'
+        success:
+          $ref: "#/components/schemas/Boolean"
+          
+    ContactFetchResponse:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactDetail'
+        message:
+          $ref: '#/components/schemas/String'
+        success:
+          $ref: "#/components/schemas/Boolean"
+          
+    ContactDetailResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ContactDetail'
+        message:
+          $ref: '#/components/schemas/String'
+        success:
+          $ref: '#/components/schemas/Boolean' 
+          
+    UsersContactsFetchResponse:
+      properties:
+        count:
+          $ref: '#/components/schemas/Number'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactDetail'
+        currentPage:
+          $ref: '#/components/schemas/Number'
+        totalPage:
+          $ref: '#/components/schemas/Number'
+        message:
+          $ref: '#/components/schemas/String'
+        success:
+          $ref: '#/components/schemas/Boolean'      
+              
