@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('@babel/register')
 
 module.exports = {
   development: {
