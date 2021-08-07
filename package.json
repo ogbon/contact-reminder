@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf ./build && babel -d ./build ./src -s",
     "pretest": "NODE_ENV=test npx sequelize db:migrate",
-    "prestart": "npx sequelize db:migrate && npx sequelize db:seed:all",
+    "prestart": "npx sequelize db:migrate",
     "start": "node build/index.js",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "lint": "npm run lint:hook -- 'src/**/*.js'",
