@@ -13,11 +13,10 @@ env:
   global:
   - NODE_ENV=test
   - PGPORT=5433
-  - PGUSER=sege
+  - PGUSER=travis
 
 before_script:
-  - psql -c 'create database contact_reminder_test;' -U sege
-  - psql -c "CREATE USER sege WITH PASSWORD null;" -U sege
+  - psql -c 'create database contact_reminder_test;' -U travis
   - npm run build
   - npm install -g sequelize-cli
   - sequelize db:migrate
