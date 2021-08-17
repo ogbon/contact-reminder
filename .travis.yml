@@ -15,11 +15,17 @@ env:
 
 before_script:
   - psql -c 'create database contact_reminder_test;' -U postgres
-  - psql -c "CREATE USER sege WITH PASSWORD null;" -U postgres
   - npm run build
   - npm install -g sequelize-cli
   - sequelize db:migrate
+  - sequelize db:seed:all
 script:
   - npm test
 after_success:
   - npm run test:coverage
+
+addons:
+  postgresql: "12"
+  apt:
+    packages:
+    - postgresql-12
