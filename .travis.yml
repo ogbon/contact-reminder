@@ -17,6 +17,7 @@ env:
 
 before_script:
   - psql -c 'create database contact_reminder_test;' -U travis
+  - psql -c "CREATE USER travis WITH PASSWORD null;" -U travis
   - npm run build
   - npm install -g sequelize-cli
   - sequelize db:migrate
