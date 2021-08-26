@@ -8,7 +8,7 @@ import {
   tokenPayload,
   formatRecord,
   sanitizeUserAttributes,
-  addRoleToUser,
+  addRoleToUser
 } from '../helpers/tools'
 
 
@@ -37,14 +37,11 @@ class AuthService {
     const userData = await addRoleToUser(payload, 'regular')
 
     return this.userService.show({email: userData.email}).then(existingUser => {
-      if (existingUser) {
+      if (existingUser)
         throw new Error('User is already existing')
-      } else {
-        return this.userService.addResource(userData).then(user => {
+      else
+        return this.userService.addResource(userData).then(user => sanitizeUserAttributes(formatRecord(user)))
 
-          return sanitizeUserAttributes(formatRecord(user))
-        })
-      }
     })
   }
 }

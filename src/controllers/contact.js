@@ -58,7 +58,7 @@ const contacts = {
     Promise.try(() => contactService.remove(req.params.id))
       .then(() => res.status(ACCEPTED).send({data: null, message: 'Contact removed', success: true}))
       .catch(err => {
-          res.status(UNPROCESSABLE_ENTITY).send({data: null, message: 'Unable to process your request.', success: false})
+        res.status(UNPROCESSABLE_ENTITY).send({data: null, message: 'Unable to process your request.', success: false})
       })
   },
 
@@ -67,7 +67,7 @@ const contacts = {
     const {page} = req.query
 
     Promise.try(() => contactService.fetchContacts({...pagination(page)}))
-      .then(({count,rows}) => res.status(OK).send({
+      .then(({count, rows}) => res.status(OK).send({
         count,
         data: rows,
         currentPage: parseInt(page && page.number, 10) || 1,

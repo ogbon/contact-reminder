@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird'
 
 import AuthService from '../services/AuthService'
-import {UNAUTHORIZED,CREATED, UNPROCESSABLE_ENTITY, OK } from '../constants/statusCodes'
+import {UNAUTHORIZED, CREATED, UNPROCESSABLE_ENTITY, OK} from '../constants/statusCodes'
 
 const authService = new AuthService()
 
@@ -21,7 +21,7 @@ const authController = {
         data: null,
         message: 'Unable to process your request',
         success: false
-    }))
+      }))
   }
 
 }

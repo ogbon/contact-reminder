@@ -30,8 +30,8 @@ const permissions = {
         res.status(UNAUTHORIZED).send({data: null, message: 'Please login to your account.', success: false})
       }
     } catch (err) { res.status(UNAUTHORIZED).send({data: null, message: 'Please login to your account.', success: false}) }
-  },
-  
+  }
+
 }
 
 export default permissions

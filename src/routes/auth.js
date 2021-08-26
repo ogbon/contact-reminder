@@ -1,3 +1,4 @@
+/* eslint-disable babel/new-cap */
 import express from 'express'
 
 import authController from '../controllers/auth'

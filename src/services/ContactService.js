@@ -14,7 +14,7 @@ class ContactService extends DataService {
   }
 
   get(id) {
-    return this.show({id,user_id: this.currentUser.id}).then(contact => {
+    return this.show({id, user_id: this.currentUser.id}).then(contact => {
       if (contact)
         return contact
       else
@@ -23,7 +23,7 @@ class ContactService extends DataService {
   }
 
   update(id, payload) {
-    return this.show({id,user_id: this.currentUser.id}).then(contact => {
+    return this.show({id, user_id: this.currentUser.id}).then(contact => {
       if (contact)
         return contact.update(payload)
       else
@@ -42,12 +42,12 @@ class ContactService extends DataService {
 
   find() { return this.index({where: {user_id: this.currentUser.id}}) }
 
-  fetchContacts({limit, offset}) { 
+  fetchContacts({limit, offset}) {
     return this.paginatedIndex({
       limit,
       offset,
       order: [['createdAt', 'DESC']]
-    }) 
+    })
   }
 }
 

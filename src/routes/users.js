@@ -1,3 +1,4 @@
+/* eslint-disable babel/new-cap */
 import express from 'express'
 
 import permissions from '../middlewares/permissions'
@@ -8,4 +9,4 @@ const users = express.Router()
 users.route('/contacts')
   .get(permissions.isAdmin, contactController.fetchContacts)
 
-export default users 
+export default users
